@@ -147,7 +147,7 @@ void execution_service() {
     // temporary file used to redirect output
     char filename[50]; 
     sprintf(filename, "tmp%d", getpid()); 
-    FILE *fp = freopen(filename, "w+", stdout);
+    FILE *fp = freopen(filename, "w+", stderr);
 
     FILE *writing_file = fopen(filename, "r");
 
@@ -157,8 +157,9 @@ void execution_service() {
         while (!has_line_ended) { 
             for (i = 0; i < MAX_LINE; i++) {
                 c = Socket_getc(connect_socket);
+                putchar(c);
                 if (c == EOF) {
-                    printf("Socket_getc EOF or error\n"); 
+                    sprintf("Socket_getc EOF or error\n", stderr); 
                     return; /* assume socket EOF ends service for this client */           
                 }
                 else {
@@ -173,7 +174,7 @@ void execution_service() {
 
         // case where buffer overflows, don't run anything
         if (line_data[strlen(line_data) -1] != '\n') {
-            printf("Character limit was exceeded, this command was not run\n");
+            sprintf("Character limit was exceeded, this command was not run\n", stderr);
 
             // skip to the end of this whole ass line of code
             char c;
