@@ -96,6 +96,7 @@ int main(int argc, char* argv[])
         }
 
         if (spid == 0) {
+            printf("connected to client");
             execution_service();
             Socket_close(connect_socket);
             exit (0);
@@ -107,7 +108,8 @@ int main(int argc, char* argv[])
         }
     }
 }
- 
+
+
 
 void ctrlCSignalHandler(int signal_number){
     if (isParent == 0 || numChildProcesses == 0) {
@@ -118,13 +120,8 @@ void ctrlCSignalHandler(int signal_number){
     fflush(stdout);
 }
 
-// void childHandler(int signal_number){
-//     wait(2);
-//     numChildProcesses--;
-// }
 
-// string parser, splits up a string (command) ending with \n based off spaces
-// writes them into array of strings argv
+
 void parseArgs(char *command, char **argv){
     char *token = strtok(command, " \n");
     *argv++ = token;

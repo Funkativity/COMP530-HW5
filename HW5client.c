@@ -48,11 +48,12 @@ int main(int argc, char* argv[])
     * a newline or to the maximim input line size.  
     * Continue getting strings from stdin until EOF.
     */ 
+    printf("Successfully connected to server \n");
 
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL))
         {
         count = strlen(line_data) + 1; /* count includes '\0' */
-
+        printf("line received");
         /* send the characters of the input line to the server
         * using the data transfer socket.
         */
@@ -71,6 +72,7 @@ int main(int argc, char* argv[])
         */ 
         for (i = 0; i < MAX_LINE; i++) {
             c = Socket_getc(connect_socket);
+            printf("receiving character \n");
             if (c == EOF){
                 printf("Socket_getc EOF or error\n");             
                 Socket_close(connect_socket);
@@ -86,8 +88,9 @@ int main(int argc, char* argv[])
         }
         
         /* be sure the string is terminated */
-        if (i == MAX_LINE)
-        line_data[i-1] = '\0';
+        if (i == MAX_LINE){
+            line_data[i-1] = '\0';
+        }
 
         /* display the converted string on stdout */
         printf("%s", line_data);
