@@ -221,6 +221,7 @@ void execution_service() {
                 }
 
                 printf("executing command %s\n", argv[0]);
+                fflush(stdout);
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
                     fprintf(stderr, "Error executing command: %s\n", strerror( errno ));                   
