@@ -220,7 +220,7 @@ void execution_service() {
                     }
                 }
 
-                printf("executing command %s", argv[0]);
+                printf("executing command %s\n", argv[0]);
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
                     fprintf(stderr, "Error executing command: %s\n", strerror( errno ));                   
@@ -241,6 +241,7 @@ void execution_service() {
                     char c = line[0];
                     for (int i = 1; i < strlen(line - 1); i++){
                         rc = Socket_putc(c, connect_socket);
+                        putchar(c);
                         if (rc == EOF) {
                             printf("Socket_putc EOF or error\n");             
                             return;  /* assume socket EOF ends service for this client */
