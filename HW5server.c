@@ -250,6 +250,6 @@ void execution_service() {
                 fprintf(stderr, "Error forking child: %s\n", strerror( errno ));
             }
         }
-        remove(filename);
+        // remove(filename);
     }
 } /* end while loop of the service process */
