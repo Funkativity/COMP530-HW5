@@ -50,8 +50,8 @@ int main(int argc, char* argv[])
     */ 
     printf("Successfully connected to server \n");
 
-    while ((fgets(line_data, sizeof(line_data), stdin) != NULL))
-        {
+    while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
+
         count = strlen(line_data) + 1; /* count includes '\0' */
         printf("line received");
         /* send the characters of the input line to the server
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
         /* display the converted string on stdout */
         printf("%s", line_data);
 
-        } /* end of while loop; at EOF */
+    } /* end of while loop; at EOF */
     Socket_close(connect_socket);
     exit(0);
 }
