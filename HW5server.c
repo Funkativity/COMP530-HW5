@@ -207,7 +207,7 @@ void execution_service() {
                     // test every path
                     while (stat(potential_full_path, &file_info) < 0 && (potential_path = strtok(NULL, ":")) != NULL){
                         snprintf(potential_full_path, sizeof(potential_full_path), "%s%c%s", potential_path, '/', argv[0]);
-                        printf("%s",potential_full_path);
+                        // printf("%s",potential_full_path);
                     }
 
                     //all paths failed

@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
                 }
             }
         }
-        
+        printf("finished processing thingy");
         /* be sure the string is terminated */
         if (i == MAX_LINE){
             line_data[i-1] = '\0';
