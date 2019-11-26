@@ -48,12 +48,12 @@ int main(int argc, char *argv[]) {
    * a newline or to the maximim input line size.
    * Continue getting strings from stdin until EOF.
    */
-
-  sprintf("Successfully connected to server \n", stdout);
+  
+  printf("Successfully connected to server \n");
 
   while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
     count = strlen(line_data) + 1; /* count includes '\0' */
-    sprintf("line received\n", stdout);
+    printf("line received\n");
     fflush( stdout );
 
     /* send the characters of the input line to the server
