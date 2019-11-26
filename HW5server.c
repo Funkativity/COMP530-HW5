@@ -248,8 +248,7 @@ void execution_service() {
                             return;  /* assume socket EOF ends service for this client */
                         }
                         c = line[i];
-                    }
-                   
+                    }                   
                 } 
                 fclose(read_handle);
             }

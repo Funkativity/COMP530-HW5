@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
 
             else {
                 line_data[i] = c;
-                if (line_data[i] == '\0'){
+                if (line_data[i] == '\n'){
                     break;
                 }
             }
