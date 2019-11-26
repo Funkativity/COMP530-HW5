@@ -237,7 +237,7 @@ void execution_service() {
                 numChildProcesses--;
                 FILE *read_handle = fopen(filename, "r");
                 char line[MAX_LINE];
-                while (fgets(line, MAX_LINE, fp) != NULL) {
+                while (fgets(line, MAX_LINE, read_handle) != NULL) {
                     char c = line[0];
                     for (int i = 1; i < strlen(line - 1); i++){
                         rc = Socket_putc(c, connect_socket);
