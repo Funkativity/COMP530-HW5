@@ -239,7 +239,8 @@ void execution_service() {
                 FILE *read_handle = fopen(filename, "r");
                 char line[MAX_LINE];
                 while (fgets(line, MAX_LINE, read_handle) != NULL) {
-                    for (int i = 0; i < strlen(line) + 1; i++){
+                    // do not include the null terminator, manually add it last
+                    for (int i = 0; i < strlen(line); i++){
                         char c = line[i];
                         rc = Socket_putc(c, connect_socket);
                         if (rc == EOF) {
