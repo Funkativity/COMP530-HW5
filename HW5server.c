@@ -250,6 +250,7 @@ void execution_service() {
                         c = line[i];
                     }                   
                 } 
+                putchar('\0');
                 fclose(read_handle);
             }
 
