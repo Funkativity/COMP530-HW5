@@ -135,7 +135,6 @@ void execution_service() {
     int i, c, rc;
     int count = 0;
     bool forever = true;
-    char line_data[MAX_LINE]; 
 
     /* will not use the server socket */
     Socket_close(welcome_socket);
@@ -147,6 +146,7 @@ void execution_service() {
     
 
     while(forever) {
+        char line_data[MAX_LINE]; 
         bool has_line_ended = false;
         printf("stuff is being written to the file \n");
         while (!has_line_ended) { 
