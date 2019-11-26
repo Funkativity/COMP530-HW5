@@ -149,7 +149,7 @@ void execution_service() {
     while(forever) {
         bool has_line_ended = false;
         FILE *fp = freopen(filename, "w+", stdout);
-        FILE *read_handle = fopen(filename, 'r');
+        FILE *read_handle = fopen(filename, "r");
 
         while (!has_line_ended) { 
             for (i = 0; i < MAX_LINE; i++) {
