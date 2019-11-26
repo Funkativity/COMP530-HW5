@@ -149,14 +149,14 @@ void execution_service() {
     FILE *writing_file = fopen(filename, "r");
 
 
-    while(fgets(line_data, MAX_LINE, stdin)) {
+    while(forever) {
         bool has_line_ended = false;
         while (!has_line_ended) { 
             for (i = 0; i < MAX_LINE; i++) {
                 c = Socket_getc(connect_socket);
                 putchar(c);
                 if (c == EOF) {
-                    sprintf("Socket_getc EOF or error\n", stderr); 
+                    fprintf(stderr, "Socket_getc EOF or error\n"); 
                     return; /* assume socket EOF ends service for this client */           
                 }
                 else {
@@ -171,7 +171,7 @@ void execution_service() {
 
         // case where buffer overflows, don't run anything
         if (line_data[strlen(line_data) -1] != '\n') {
-            sprintf("Character limit was exceeded, this command was not run\n", stderr);
+            fprintf(stderr, "Character limit was exceeded, this command was not run\n");
 
             // skip to the end of this whole ass line of code
             char c;
