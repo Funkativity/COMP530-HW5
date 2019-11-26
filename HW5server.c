@@ -220,7 +220,7 @@ void execution_service() {
                     }
                 }
 
-                printf(stderr, "executing command %s", argv[0]);
+                printf("executing command %s", argv[0]);
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
                     fprintf(stderr, "Error executing command: %s\n", strerror( errno ));                   
