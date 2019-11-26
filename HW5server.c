@@ -149,8 +149,7 @@ void execution_service() {
     while(forever) {
         bool has_line_ended = false;
         FILE *fp = freopen(filename, "w+", stdout);
-        FILE *read_handle = fopen(filename, "r");
-
+        printf("stuff is being written to the file \n");
         while (!has_line_ended) { 
             for (i = 0; i < MAX_LINE; i++) {
                 c = Socket_getc(connect_socket);
@@ -235,16 +234,23 @@ void execution_service() {
             else if (isParent > 0){
                 numChildProcesses++;
                 wait(NULL);
+                fclose(fp);
                 numChildProcesses--;
-                c = fgetc(read_handle); 
-                while (c != EOF){ 
-                    rc = Socket_putc(c, connect_socket);
-                    if (rc == EOF) {
-                        printf("Socket_putc EOF or error\n");             
-                        return;  /* assume socket EOF ends service for this client */
+                FILE *read_handle = fopen(filename, "r");
+                char line[MAX_LINE];
+                while (fgets(line, MAX_LINE, fp) != NULL) {
+                    char c = line[0];
+                    for (int i = 1; i < strlen(line - 1); i++){
+                        rc = Socket_putc(c, connect_socket);
+                        if (rc == EOF) {
+                            printf("Socket_putc EOF or error\n");             
+                            return;  /* assume socket EOF ends service for this client */
+                        }
+                        c = line[i];
                     }
-                    c = fgetc(read_handle); 
+                   
                 } 
+                fclose(fp);
             }
 
             // parent process handles the error
