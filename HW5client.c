@@ -74,7 +74,6 @@ int main(int argc, char* argv[])
         */ 
         for (i = 0; i < MAX_LINE; i++) {
             c = Socket_getc(connect_socket);
-            printf("receiving character \n");
             if (c == EOF){
                 printf("Socket_getc EOF or error\n");             
                 Socket_close(connect_socket);
