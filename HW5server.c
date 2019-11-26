@@ -249,7 +249,12 @@ void execution_service() {
                         }
                     }                   
                 } 
-                putchar('\0');
+                //manually add null terminator
+                rc = Socket_putc('\0', connect_socket);
+                if (rc == EOF) {
+                    printf("Socket_putc EOF or error\n");             
+                    return;  /* assume socket EOF ends service for this client */
+                }
                 fclose(read_handle);
             }
 
