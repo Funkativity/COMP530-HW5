@@ -239,15 +239,13 @@ void execution_service() {
                 FILE *read_handle = fopen(filename, "r");
                 char line[MAX_LINE];
                 while (fgets(line, MAX_LINE, read_handle) != NULL) {
-                    char c = line[0];
-                    for (int i = 1; i < strlen(line) + 1; i++){
+                    for (int i = 0; i < strlen(line) + 1; i++){
+                        char c = line[i];
                         rc = Socket_putc(c, connect_socket);
-                        putchar(c);
                         if (rc == EOF) {
                             printf("Socket_putc EOF or error\n");             
                             return;  /* assume socket EOF ends service for this client */
                         }
-                        c = line[i];
                     }                   
                 } 
                 putchar('\0');
