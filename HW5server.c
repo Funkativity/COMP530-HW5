@@ -249,7 +249,7 @@ void execution_service() {
                     }
                    
                 } 
-                fclose(fp);
+                fclose(read_handle);
             }
 
             // parent process handles the error
