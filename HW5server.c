@@ -181,7 +181,7 @@ void execution_service() {
 
         // valid input
         else {
-
+            fprintf(stderr, "Valid input \n");
             isParent = fork();
 
             // child process
