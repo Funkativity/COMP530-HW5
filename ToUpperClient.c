@@ -49,9 +49,11 @@ int main(int argc, char *argv[]) {
    * Continue getting strings from stdin until EOF.
    */
 
+  sprintf("Successfully connected to server \n", stdout);
+
   while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
     count = strlen(line_data) + 1; /* count includes '\0' */
-    printf("line received");
+    sprintf("line received\n", stdout);
     fflush( stdout );
 
     /* send the characters of the input line to the server

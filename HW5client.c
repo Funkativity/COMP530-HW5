@@ -53,7 +53,9 @@ int main(int argc, char* argv[])
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
 
         count = strlen(line_data) + 1; /* count includes '\0' */
-        printf("line received");
+        printf("line received\n");
+        fflush( stdout );
+
         /* send the characters of the input line to the server
         * using the data transfer socket.
         */
