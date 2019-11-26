@@ -148,7 +148,6 @@ void execution_service() {
 
     while(forever) {
         bool has_line_ended = false;
-        FILE *fp = freopen(filename, "w+", stdout);
         printf("stuff is being written to the file \n");
         while (!has_line_ended) { 
             for (i = 0; i < MAX_LINE; i++) {
@@ -185,7 +184,7 @@ void execution_service() {
 
             // child process
             if (!isParent){
-                
+                FILE *fp = freopen(filename, "w+", stdout);        
                 char *argv[MAX_ARGS];
                 parseArgs(line_data, argv);
                 
@@ -221,11 +220,12 @@ void execution_service() {
                     }
                 }
 
-                fprintf(stderr, "executing command %s", argv[0]);
+                printf(stderr, "executing command %s", argv[0]);
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
                     fprintf(stderr, "Error executing command: %s\n", strerror( errno ));                   
                 }
+                fclose(fp);
                 exit(0);
             }
 
@@ -234,7 +234,6 @@ void execution_service() {
             else if (isParent > 0){
                 numChildProcesses++;
                 wait(NULL);
-                fclose(fp);
                 numChildProcesses--;
                 FILE *read_handle = fopen(filename, "r");
                 char line[MAX_LINE];
