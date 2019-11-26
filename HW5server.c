@@ -144,13 +144,13 @@ void execution_service() {
     // temporary file used to redirect output
     char filename[50]; 
     sprintf(filename, "tmp%d", getpid()); 
-    FILE *fp = freopen(filename, "w+", stderr);
-
-    FILE *writing_file = fopen(filename, "r");
-
+    
 
     while(forever) {
         bool has_line_ended = false;
+        FILE *fp = freopen(filename, "w+", stdout);
+        FILE *read_handle = fopen(filename, 'r');
+
         while (!has_line_ended) { 
             for (i = 0; i < MAX_LINE; i++) {
                 c = Socket_getc(connect_socket);
@@ -215,7 +215,7 @@ void execution_service() {
                     if (potential_path == NULL){
                         fprintf(stderr, "\nUnable to find command\n");
                         exit(0);
-                    // fonud it!
+                    // found it!
                     } else {
                         argv[0] = potential_full_path;
                     }
@@ -234,14 +234,14 @@ void execution_service() {
                 numChildProcesses++;
                 wait(NULL);
                 numChildProcesses--;
-                c = fgetc(writing_file); 
+                c = fgetc(read_handle); 
                 while (c != EOF){ 
                     rc = Socket_putc(c, connect_socket);
                     if (rc == EOF) {
                         printf("Socket_putc EOF or error\n");             
                         return;  /* assume socket EOF ends service for this client */
                     }
-                    c = fgetc(writing_file); 
+                    c = fgetc(read_handle); 
                 } 
             }
 
@@ -250,5 +250,6 @@ void execution_service() {
                 fprintf(stderr, "Error forking child: %s\n", strerror( errno ));
             }
         }
+        remove(filename);
     }
 } /* end while loop of the service process */
