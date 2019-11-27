@@ -15,7 +15,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <time.h>
 
 #include "Socket.h"
 #include "ToUpper.h" /* definitions shared by client and server */
@@ -172,7 +171,7 @@ void execution_service() {
         // case where buffer overflows, don't run anything
         if (line_data[strlen(line_data) -1] != '\n') {
 
-            fprintf(stderr, "Character limit was exceeded, final character was 0x%x at index %d\n",
+            fprintf(stderr, "Character limit was exceeded, final character was 0x%x at index %i\n",
                     line_data[strlen(line_data) - 1], (strlen(line_data) -1));
 
             // skip to the end of this whole ass line of code
@@ -267,6 +266,6 @@ void execution_service() {
             }
         }
         // remove(filename);
-        nanosleep(100000000); // sleep for 10 ms
+        sleep(1);
     }
 } /* end while loop of the service process */
