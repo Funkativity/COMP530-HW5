@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
                 }
             }
         }
-
+        
         // TODO: handle error codes that go after the end of text;
 
         printf("finished processing thingy");
