@@ -48,13 +48,14 @@ int main(int argc, char* argv[])
     * a newline or to the maximim input line size.  
     * Continue getting strings from stdin until EOF.
     */ 
-    printf("Successfully connected to server \n");
+    printf("%%");
+    fflush( stdout );
+
 
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
 
         count = strlen(line_data) + 1; /* count includes '\0' */
         printf("line received\n");
-        fflush( stdout );
 
         /* send the characters of the input line to the server
         * using the data transfer socket.
@@ -63,7 +64,7 @@ int main(int argc, char* argv[])
             c = line_data[i];
             rc = Socket_putc(c, connect_socket);
             if (rc == EOF) {
-            printf("Socket_putc EOF or error\n");             
+                printf("Socket_putc EOF or error\n");             
                 Socket_close(connect_socket);
                 exit (-1);  /* assume socket problem is fatal, end client */
             }
@@ -95,7 +96,7 @@ int main(int argc, char* argv[])
 
         /* display the converted string on stdout */
         printf("%s", line_data);
-
+        printf("%%");
     } /* end of while loop; at EOF */
     Socket_close(connect_socket);
     exit(0);
