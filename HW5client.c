@@ -84,12 +84,13 @@ int main(int argc, char* argv[])
             else {
                 line_data[i] = c;
                 if (line_data[i] == 0x03){
+                    while (c = Socket_getc(connect_socket) != '\0'){}
                     line_data[i] = '\0';
                     break;
                 }
             }
         }
-        
+
         // TODO: handle error codes that go after the end of text;
 
         printf("finished processing thingy");
