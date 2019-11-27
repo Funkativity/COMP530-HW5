@@ -171,12 +171,12 @@ void execution_service() {
         // case where buffer overflows, don't run anything
         if (line_data[strlen(line_data) -1] != '\n') {
 
-            fprintf(stderr, "Character limit was exceeded, final character was 0x%x\n",
-                    line_data[strlen(line_data) - 1]);
+            fprintf(stderr, "Character limit was exceeded, final character was 0x%x at index %d\n",
+                    line_data[strlen(line_data) - 1], (strlen(line_data) -1));
 
             // skip to the end of this whole ass line of code
             char c;
-            while ((c = fgetc(stdin)) != '\n' && c != EOF);
+            while (c = Socket_getc(connect_socket) != '\n' && c != EOF);
         }
 
         // valid input
