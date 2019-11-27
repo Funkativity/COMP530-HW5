@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "Socket.h"
 #include "ToUpper.h" /* definitions shared by client and server */
@@ -252,7 +253,7 @@ void execution_service() {
                     }                   
                 } 
                 //manually add null terminator
-                // rc = Socket_putc('\0', connect_socket);
+                rc = Socket_putc(0x03, connect_socket);
                 if (rc == EOF) {
                     printf("Socket_putc EOF or error\n");             
                     return;  /* assume socket EOF ends service for this client */
@@ -266,5 +267,6 @@ void execution_service() {
             }
         }
         // remove(filename);
+        nanosleep(100000000); // sleep for 10 ms
     }
 } /* end while loop of the service process */
