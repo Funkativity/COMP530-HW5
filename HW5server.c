@@ -147,27 +147,19 @@ void execution_service() {
 
     while(forever) {
         char line_data[MAX_LINE]; 
-        bool has_line_ended = false;
         printf("stuff is being written to the file \n");
-        while (!has_line_ended) { 
-            for (i = 0; i < MAX_LINE; i++) {
-                c = Socket_getc(connect_socket);
-                fprintf(stderr, "char hex is 0x%x", c);
-                if (c == EOF) {
-                    fprintf(stderr, "Socket_getc EOF or error\n"); 
-                    return; /* assume socket EOF ends service for this client */           
-                }
-                else {
-                    line_data[i] = c;
-                }
-                if (c == '\n') {
-                    has_line_ended = true;
-                    // test code to see if this gets \0
-                    c = Socket_getc(connect_socket);
-                    fprintf(stderr, "char hex is 0x%x", c);
-                    line_data[i+1] = c;
-                    break;
-                }
+        for (i = 0; i < MAX_LINE; i++) {
+            c = Socket_getc(connect_socket);
+            fprintf(stderr, "char hex is 0x%x", c);
+            if (c == EOF) {
+                fprintf(stderr, "Socket_getc EOF or error\n"); 
+                return; /* assume socket EOF ends service for this client */           
+            }
+            else {
+                line_data[i] = c;
+            }
+            if (c == '\0') {
+                break;
             }
         }
 
