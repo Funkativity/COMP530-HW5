@@ -162,7 +162,10 @@ void execution_service() {
                 }
                 if (c == '\n') {
                     has_line_ended = true;
-                    line_data[i+1] = '\0';
+                    // test code to see if this gets \0
+                    c = Socket_getc(connect_socket);
+                    fprintf(stderr, "char hex is 0x%x", c);
+                    line_data[i+1] = c;
                     break;
                 }
             }
