@@ -152,7 +152,7 @@ void execution_service() {
         while (!has_line_ended) { 
             for (i = 0; i < MAX_LINE; i++) {
                 c = Socket_getc(connect_socket);
-                putchar(c);
+                fprintf(stderr, "char hex is 0x%x", c);
                 if (c == EOF) {
                     fprintf(stderr, "Socket_getc EOF or error\n"); 
                     return; /* assume socket EOF ends service for this client */           
