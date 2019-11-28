@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     Socket connect_socket;
 
     if (argc < 3){
-        printf("No host and port\n");
+        // printf("No host and port\n");
         return (-1);
     }
 
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     */
     connect_socket = Socket_new(argv[1], atoi(argv[2]));
     if (connect_socket < 0){
-        printf("Failed to connect to server\n");
+        // printf("Failed to connect to server\n");
         return (-1);
     }
 
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
 
         count = strlen(line_data) + 1; /* count includes '\0' */
-        printf("line received\n");
+        // printf("line received\n");
 
         /* send the characters of the input line to the server
         * using the data transfer socket.
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
             c = line_data[i];
             rc = Socket_putc(c, connect_socket);
             if (rc == EOF) {
-                printf("Socket_putc EOF or error\n");             
+                // printf("Socket_putc EOF or error\n");             
                 Socket_close(connect_socket);
                 exit (-1);  /* assume socket problem is fatal, end client */
             }
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
         while (1){
             c = Socket_getc(connect_socket);
             if (c == EOF){
-                printf("Socket_getc EOF or error\n");             
+                // printf("Socket_getc EOF or error\n");             
                 Socket_close(connect_socket);
                 exit (-1);  /* assume socket problem is fatal, end client */
             }
