@@ -81,27 +81,20 @@ int main(int argc, char* argv[])
                 exit (-1);  /* assume socket problem is fatal, end client */
             }
 
-            else {
-                line_data[i] = c;
-                if (line_data[i] == 0x03){
-                    // if we want to handle errors, we could 
-                    // get more info here
-                    line_data[i] = '\0';
+            else if (c == 0x03){
                     break;
-                }
+            }
+
+            else {
+                putchar(c);
             }
         }
 
         // TODO: handle error codes that go after the end of text;
 
-        printf("finished processing thingy");
+        //printf("finished processing thingy");
         /* be sure the string is terminated */
-        if (i == MAX_LINE){
-            line_data[i-1] = '\0';
-        }
-
         /* display the converted string on stdout */
-        printf("%s", line_data);
         printf("%%");
     } /* end of while loop; at EOF */
     Socket_close(connect_socket);
