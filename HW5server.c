@@ -178,11 +178,12 @@ void execution_service() {
         // valid input
         else {
             fprintf(stderr, "Valid input \n");
+            FILE *fp = freopen(filename, "w+", stdout);
+
             isParent = fork();
 
             // child process
             if (!isParent){
-                FILE *fp = freopen(filename, "w+", stdout);
                 char *argv[MAX_ARGS];
                 parseArgs(line_data, argv);
 
