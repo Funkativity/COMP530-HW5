@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
 
         // TODO: handle error codes that go after the end of text;
 
-        //printf("finished processing thingy");
+        // printf("finished processing thingy");
         /* be sure the string is terminated */
         /* display the converted string on stdout */
         printf("%%");
