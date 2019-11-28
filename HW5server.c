@@ -237,6 +237,7 @@ void execution_service() {
                 while (c = fgetc(read_handle) != '\0') {
                     // do not include the null terminator, manually add it last
                     rc = Socket_putc(c, connect_socket);
+                    fprintf(stderr, "%c", c);
                     if (rc == EOF) {
                         printf("Socket_putc EOF or error\n");             
                         return;  /* assume socket EOF ends service for this client */
