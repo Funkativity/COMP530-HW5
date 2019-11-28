@@ -31,19 +31,19 @@ ServerSocket welcome_socket;
 Socket connect_socket;
 
 void execution_service();
-/* 
+/*
  * A server program that provides the service of executing shell commands
  * It is implemented using the "daemon-service" model.  In this model,
  * multiple clients can be serviced
- * concurrently by the service.  The server main process is 
- * a simple loop that accepts incoming socket connections, and for 
- * each new connection established, uses fork() to create a child 
- * process that is a new instance of the service process.  This child 
- * process will provide the service for the single client program that 
- * established the socket connection.  
+ * concurrently by the service.  The server main process is
+ * a simple loop that accepts incoming socket connections, and for
+ * each new connection established, uses fork() to create a child
+ * process that is a new instance of the service process.  This child
+ * process will provide the service for the single client program that
+ * established the socket connection.
  *
- * Each new instance of the server process accepts input strings from 
- * its client program, converts the characters to upper case and returns 
+ * Each new instance of the server process accepts input strings from
+ * its client program, converts the characters to upper case and returns
  * the converted string back to the client.
  *
  * Since the main process (the daemon) is intended to be continuously
@@ -59,7 +59,7 @@ void execution_service();
 
 int main(int argc, char* argv[])
 {
-  pid_t spid, term_pid; /* pid_t is typedef for Linux process ID */ 
+  pid_t spid, term_pid; /* pid_t is typedef for Linux process ID */
   int chld_status;
   bool forever = true;
 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
 
         spid = fork();  /* create child == service process */
         if (spid == -1){
-            perror("fork"); 
+            perror("fork");
             exit (-1);
         }
 
@@ -141,19 +141,19 @@ void execution_service() {
 
 
     // temporary file used to redirect output
-    char filename[50]; 
-    sprintf(filename, "tmp%d", getpid()); 
-    
+    char filename[50];
+    sprintf(filename, "tmp%d", getpid());
+
 
     while(forever) {
-        char line_data[MAX_LINE]; 
+        char line_data[MAX_LINE];
         printf("stuff is being written to the file \n");
         for (i = 0; i < MAX_LINE; i++) {
             c = Socket_getc(connect_socket);
             fprintf(stderr, "char hex is 0x%x", c);
             if (c == EOF) {
-                fprintf(stderr, "Socket_getc EOF or error\n"); 
-                return; /* assume socket EOF ends service for this client */           
+                fprintf(stderr, "Socket_getc EOF or error\n");
+                return; /* assume socket EOF ends service for this client */
             }
             else {
                 line_data[i] = c;
@@ -181,10 +181,10 @@ void execution_service() {
 
             // child process
             if (!isParent){
-                FILE *fp = freopen(filename, "w+", stdout);        
+                FILE *fp = freopen(filename, "w+", stdout);
                 char *argv[MAX_ARGS];
                 parseArgs(line_data, argv);
-                
+
                 // check if the command actually exists
                 struct stat file_info;
                 if (stat(argv[0], &file_info) < 0){
@@ -220,7 +220,7 @@ void execution_service() {
                 printf("executing command %s\n", argv[0]);
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
-                    fprintf(stderr, "Error executing command: %s\n", strerror( errno ));                   
+                    fprintf(stderr, "Error executing command: %s\n", strerror( errno ));
                 }
                 fflush(stdout);
                 fclose(fp);
@@ -228,25 +228,25 @@ void execution_service() {
             }
 
 
-            // parent process 
+            // parent process
             else if (isParent > 0){
                 numChildProcesses++;
                 wait(NULL);
                 numChildProcesses--;
                 FILE *read_handle = fopen(filename, "r");
-                while (c = fgetc(read_handle) != EOF) {
-                    // do not include the null terminator, manually add it last
-                    rc = Socket_putc(c, connect_socket);
+                while ( feof(read_handle)) {
+                    c = fgetc(read_handle);
                     fprintf(stderr, "%c", c);
+                    rc = Socket_putc(c, connect_socket);
                     if (rc == EOF) {
-                        printf("Socket_putc EOF or error\n");             
+                        printf("Socket_putc EOF or error\n");
                         return;  /* assume socket EOF ends service for this client */
                     }
-                } 
+                }
                 //manually add null terminator
                 rc = Socket_putc('\0', connect_socket);
                 if (rc == EOF) {
-                    printf("Socket_putc EOF or error\n");             
+                    printf("Socket_putc EOF or error\n");
                     return;  /* assume socket EOF ends service for this client */
                 }
                 fclose(read_handle);
