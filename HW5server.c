@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
         }
 
         if (spid == 0) {
-            printf("connected to client");
+            // printf("connected to client");
             execution_service();
             Socket_close(connect_socket);
             exit (0);
@@ -175,7 +175,6 @@ void execution_service() {
 
         // valid input
         else {
-            fprintf(stderr, "Valid input \n");
             isParent = fork();
 
             // child process
@@ -237,13 +236,17 @@ void execution_service() {
                 wait(NULL);
                 numChildProcesses--;
                 FILE *read_handle = fopen(filename, "r");
-                while (c = fgetc(read_handle) != '\0') {
+                char line[MAX_LINE];
+                while (fgets(line, MAX_LINE, read_handle) != NULL) {
                     // do not include the null terminator, manually add it last
+                    for (int i = 0; i < strlen(line); i++){
+                        char c = line[i];
                         rc = Socket_putc(c, connect_socket);
-                    if (rc == EOF) {
-                        // printf("Socket_putc EOF or error\n");             
-                        return;  /* assume socket EOF ends service for this client */
-                    }
+                        if (rc == EOF) {
+                            // printf("Socket_putc EOF or error\n");             
+                            return;  /* assume socket EOF ends service for this client */
+                        }
+                    }                   
                 } 
                 if (rc == EOF) {
                     // printf("Socket_putc EOF or error\n");             
