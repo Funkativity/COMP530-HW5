@@ -236,7 +236,7 @@ void execution_service() {
                 FILE *read_handle = fopen(filename, "r");
                 while ( 1 ) {
                     c = fgetc(read_handle);
-                    if (feop(read_handle)){
+                    if (feof(read_handle)){
                         break;
                     }
                     fprintf(stderr, "%c", c);
