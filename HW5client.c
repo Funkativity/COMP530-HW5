@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
         /* receive the converted characters for the string from
         * the server using the data transfer socket.  
         */ 
-        while (1)
+        while (1){
             c = Socket_getc(connect_socket);
             if (c == EOF){
                 printf("Socket_getc EOF or error\n");             
