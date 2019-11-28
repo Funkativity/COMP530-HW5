@@ -234,8 +234,11 @@ void execution_service() {
                 wait(NULL);
                 numChildProcesses--;
                 FILE *read_handle = fopen(filename, "r");
-                while ( feof(read_handle)) {
+                while ( 1 ) {
                     c = fgetc(read_handle);
+                    if (feop(read_handle)){
+                        break;
+                    }
                     fprintf(stderr, "%c", c);
                     rc = Socket_putc(c, connect_socket);
                     if (rc == EOF) {
