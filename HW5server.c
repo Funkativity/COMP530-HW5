@@ -223,6 +223,7 @@ void execution_service() {
                 if (ok < 0) {
                     printf("Error executing command: %s\n", strerror( errno ));
                 }
+                printf("finished command \n");
                 fflush(stdout);
                 fclose(fp);
                 exit(0);
