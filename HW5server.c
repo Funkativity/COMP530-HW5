@@ -25,7 +25,7 @@
 #define MAX_ARGS 100
 #define MAX_LINE 1024
 
-int isParent = 1;
+int cpid = 1;
 int numChildProcesses = 0;
 ServerSocket welcome_socket;
 Socket connect_socket;
@@ -112,16 +112,6 @@ int main(int argc, char* argv[])
 
 
 
-void ctrlCSignalHandler(int signal_number){
-    if (isParent == 0 || numChildProcesses == 0) {
-        printf("\nExiting Process\n");
-        fflush(stdout);
-        exit(0);
-    }
-    fflush(stdout);
-}
-
-
 
 void parseArgs(char *command, char **argv){
     char *token = strtok(command, " \n");
@@ -177,10 +167,10 @@ void execution_service() {
         else {
             FILE *fp = freopen(filename, "w+", stdout);
 
-            isParent = fork();
+            cpid = fork();
 
             // child process
-            if (!isParent){
+            if (!cpid){
                 char *argv[MAX_ARGS];
                 parseArgs(line_data, argv);
 
@@ -229,12 +219,9 @@ void execution_service() {
 
 
             // parent process
-            else if (isParent > 0){
-                wait(NULL);
-
-
-                successfull_execution = true;
-
+            else if (cpid > 0){
+                int stat;
+                cpid = waitpid(cpid, &stat,0) ;
                 FILE *read_handle = fopen(filename, "r");
                 while ( 1 ) {
                     c = fgetc(read_handle);
@@ -248,14 +235,29 @@ void execution_service() {
                     }
                 }
 
-                //add extra end of text character
-                if (successfull_execution){
-                    rc = Socket_putc(0x03, connect_socket);
+                //add special flag end of text character
+                rc = Socket_putc(0x03, connect_socket);
+                if (rc == EOF) {
+                    // printf("Socket_putc EOF or error\n");
+                    return;  /* assume socket EOF ends service for this client */
+                }
+
+                // also add on return condition to it;                
+                rc = Socket_putc(WIFEXITED(stat), connect_socket);
+                if (rc == EOF) {
+                    return;  /* assume socket EOF ends service for this client */
+                }
+
+                if (WIFEXITED(stat)) {
+                    rc = Socket_putc(WEXITSTATUS(stat), connect_socket);
                     if (rc == EOF) {
-                        // printf("Socket_putc EOF or error\n");
                         return;  /* assume socket EOF ends service for this client */
                     }
                 }
+
+                // also add on a null terminator to it;                
+                rc = Socket_putc('\0', connect_socket);
+
                 fclose(read_handle);
             }
 
@@ -264,6 +266,6 @@ void execution_service() {
                 fprintf(stderr, "Error forking child: %s\n", strerror( errno ));
             }
         }
-        // remove(filename);
+        remove(filename);
     }
 } /* end while loop of the service process */

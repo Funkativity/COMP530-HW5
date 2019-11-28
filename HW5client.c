@@ -82,6 +82,10 @@ int main(int argc, char* argv[])
             }
 
             else if (c == 0x03){
+                // here is where I could handle error codes, but instead i just flush past them
+                while (c != '\0') {
+                    c = Socket_getc(connect_socket);
+                }
                 break;
             }
 
@@ -90,7 +94,6 @@ int main(int argc, char* argv[])
             }
         }
 
-        // TODO: handle error codes that go after the end of text;
 
         // printf("finished processing thingy");
         /* be sure the string is terminated */
