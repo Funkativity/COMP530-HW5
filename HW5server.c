@@ -221,11 +221,11 @@ void execution_service() {
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
                     successfull_execution = false;
-                    putchar(0x03);
+                    fputc(0x03);
                     putchar(ok);
                     printf("Error executing command: %s\n", strerror( errno ));
                 }
-                fclose(fp);
+                // fclose(fp);
                 exit(0);
             }
 
@@ -236,10 +236,11 @@ void execution_service() {
 
                 if (successfull_execution){
                     putchar(0x03);
+                    putchar('e');
                 }
 
                 successfull_execution = true;
-                
+
                 FILE *read_handle = fopen(filename, "r");
                 while ( 1 ) {
                     c = fgetc(read_handle);
