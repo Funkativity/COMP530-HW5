@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
         }
 
         if (spid == 0) {
-            // printf("connected to client");
+            printf("connected to client");
             execution_service();
             Socket_close(connect_socket);
             exit (0);
@@ -147,9 +147,10 @@ void execution_service() {
 
     while(forever) {
         char line_data[MAX_LINE]; 
+        printf("stuff is being written to the file \n");
         for (i = 0; i < MAX_LINE; i++) {
             c = Socket_getc(connect_socket);
-            // fprintf(stderr, "char hex is 0x%x", c);
+            fprintf(stderr, "char hex is 0x%x", c);
             if (c == EOF) {
                 fprintf(stderr, "Socket_getc EOF or error\n"); 
                 return; /* assume socket EOF ends service for this client */           
@@ -175,6 +176,7 @@ void execution_service() {
 
         // valid input
         else {
+            fprintf(stderr, "Valid input \n");
             isParent = fork();
 
             // child process
@@ -215,14 +217,10 @@ void execution_service() {
                     }
                 }
 
-                // printf("executing command %s\n", argv[0]);
+                printf("executing command %s\n", argv[0]);
                 int ok = execv(argv[0], argv);
-                
-                // add special terminator character and error status 
-                putchar(0x03);
-                putchar(ok);
                 if (ok < 0) {
-                    printf("Error executing command: %s\n", strerror( errno ));                   
+                    fprintf(stderr, "Error executing command: %s\n", strerror( errno ));                   
                 }
                 fflush(stdout);
                 fclose(fp);
@@ -236,20 +234,18 @@ void execution_service() {
                 wait(NULL);
                 numChildProcesses--;
                 FILE *read_handle = fopen(filename, "r");
-                char line[MAX_LINE];
-                while (fgets(line, MAX_LINE, read_handle) != NULL) {
+                while (c = fgetc(read_handle) != '\0') {
                     // do not include the null terminator, manually add it last
-                    for (int i = 0; i < strlen(line); i++){
-                        char c = line[i];
-                        rc = Socket_putc(c, connect_socket);
-                        if (rc == EOF) {
-                            // printf("Socket_putc EOF or error\n");             
-                            return;  /* assume socket EOF ends service for this client */
-                        }
-                    }                   
+                    rc = Socket_putc(c, connect_socket);
+                    if (rc == EOF) {
+                        printf("Socket_putc EOF or error\n");             
+                        return;  /* assume socket EOF ends service for this client */
+                    }
                 } 
+                //manually add null terminator
+                rc = Socket_putc('\0', connect_socket);
                 if (rc == EOF) {
-                    // printf("Socket_putc EOF or error\n");             
+                    printf("Socket_putc EOF or error\n");             
                     return;  /* assume socket EOF ends service for this client */
                 }
                 fclose(read_handle);
@@ -260,6 +256,6 @@ void execution_service() {
                 fprintf(stderr, "Error forking child: %s\n", strerror( errno ));
             }
         }
-        remove(filename);
+        // remove(filename);
     }
 } /* end while loop of the service process */
