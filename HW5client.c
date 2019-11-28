@@ -84,6 +84,8 @@ int main(int argc, char* argv[])
             else {
                 line_data[i] = c;
                 if (line_data[i] == 0x03){
+                    // if we want to handle errors, we could 
+                    // get more info here
                     line_data[i] = '\0';
                     break;
                 }
