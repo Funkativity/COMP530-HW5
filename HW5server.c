@@ -29,6 +29,7 @@ int isParent = 1;
 int numChildProcesses = 0;
 ServerSocket welcome_socket;
 Socket connect_socket;
+bool successfull_execution = true;
 
 void execution_service();
 /*
@@ -218,13 +219,12 @@ void execution_service() {
                 }
 
                 int ok = execv(argv[0], argv);
-                putchar(0x03);
-                putchar(ok);
                 if (ok < 0) {
+                    successfull_execution = false;
+                    putchar(0x03);
+                    putchar(ok);
                     printf("Error executing command: %s\n", strerror( errno ));
                 }
-                printf("finished command \n");
-                fflush(stdout);
                 fclose(fp);
                 exit(0);
             }
@@ -232,9 +232,14 @@ void execution_service() {
 
             // parent process
             else if (isParent > 0){
-                numChildProcesses++;
                 wait(NULL);
-                numChildProcesses--;
+
+                if (successfull_execution){
+                    putchar(0x03);
+                }
+
+                successfull_execution = true;
+                
                 FILE *read_handle = fopen(filename, "r");
                 while ( 1 ) {
                     c = fgetc(read_handle);
