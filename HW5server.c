@@ -234,7 +234,7 @@ void execution_service() {
                 wait(NULL);
                 numChildProcesses--;
                 FILE *read_handle = fopen(filename, "r");
-                while (c = fgetc(read_handle) != '\0') {
+                while (c = fgetc(read_handle) != EOF) {
                     // do not include the null terminator, manually add it last
                     rc = Socket_putc(c, connect_socket);
                     fprintf(stderr, "%c", c);
