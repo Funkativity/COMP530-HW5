@@ -221,7 +221,7 @@ void execution_service() {
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
                     successfull_execution = false;
-                    fputc(0x03);
+                    putchar(0x03);
                     putchar(ok);
                     printf("Error executing command: %s\n", strerror( errno ));
                 }
