@@ -235,10 +235,6 @@ void execution_service() {
             else if (isParent > 0){
                 wait(NULL);
 
-                if (successfull_execution){
-                    putchar(0x03);
-                    putchar('e');
-                }
 
                 successfull_execution = true;
 
@@ -250,6 +246,15 @@ void execution_service() {
                     }
                     fprintf(stderr, "%c", c);
                     rc = Socket_putc(c, connect_socket);
+                    if (rc == EOF) {
+                        printf("Socket_putc EOF or error\n");
+                        return;  /* assume socket EOF ends service for this client */
+                    }
+                }
+
+                //add extra end of text character
+                if (successfull_execution){
+                    rc = Socket_putc(0x03, connect_socket);
                     if (rc == EOF) {
                         printf("Socket_putc EOF or error\n");
                         return;  /* assume socket EOF ends service for this client */
