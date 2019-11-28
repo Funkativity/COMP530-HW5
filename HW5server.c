@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
         */
         connect_socket = ServerSocket_accept(welcome_socket);
         if (connect_socket < 0) {
-            printf("Failed accept on server socket\n");
+            // printf("Failed accept on server socket\n");
             exit (-1);
         }
 
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
         }
 
         if (spid == 0) {
-            printf("connected to client");
+            // printf("connected to client");
             execution_service();
             Socket_close(connect_socket);
             exit (0);
@@ -148,12 +148,10 @@ void execution_service() {
 
     while(forever) {
         char line_data[MAX_LINE];
-        printf("stuff is being written to the file \n");
         for (i = 0; i < MAX_LINE; i++) {
             c = Socket_getc(connect_socket);
-            fprintf(stderr, "char hex is 0x%x", c);
             if (c == EOF) {
-                fprintf(stderr, "Socket_getc EOF or error\n");
+                // fprintf(stderr, "Socket_getc EOF or error\n");
                 return; /* assume socket EOF ends service for this client */
             }
             else {
@@ -177,7 +175,6 @@ void execution_service() {
 
         // valid input
         else {
-            fprintf(stderr, "Valid input \n");
             FILE *fp = freopen(filename, "w+", stdout);
 
             isParent = fork();
@@ -244,10 +241,9 @@ void execution_service() {
                     if (feof(read_handle)){
                         break;
                     }
-                    fprintf(stderr, "%c", c);
                     rc = Socket_putc(c, connect_socket);
                     if (rc == EOF) {
-                        printf("Socket_putc EOF or error\n");
+                        // printf("Socket_putc EOF or error\n");
                         return;  /* assume socket EOF ends service for this client */
                     }
                 }
@@ -256,7 +252,7 @@ void execution_service() {
                 if (successfull_execution){
                     rc = Socket_putc(0x03, connect_socket);
                     if (rc == EOF) {
-                        printf("Socket_putc EOF or error\n");
+                        // printf("Socket_putc EOF or error\n");
                         return;  /* assume socket EOF ends service for this client */
                     }
                 }
