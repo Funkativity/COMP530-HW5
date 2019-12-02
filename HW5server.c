@@ -17,10 +17,6 @@
 #include <unistd.h>
 
 #include "Socket.h"
-#include "ToUpper.h" /* definitions shared by client and server */
-
-
-#include "Socket.h"
 
 #define MAX_ARGS 100
 #define MAX_LINE 1024
