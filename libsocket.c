@@ -136,8 +136,9 @@ int Socket_getc(Socket sd)
 
   bytes_read = read(sd, &read_buffer[0], 1);
 
-  if (bytes_read < 0)
+  if (bytes_read < 0){
     // perror("Socket_getc:");
+  }
 
   if (bytes_read <= 0)
     return EOF;
@@ -163,9 +164,10 @@ int Socket_putc(int c, Socket sd)
 
   bytes_written = write(sd, &send_buffer[0], 1);
 
-  if (bytes_written < 0)
+  if (bytes_written < 0){
     // perror("Socket_putc:");
-
+  }
+  
   if (bytes_written <= 0)
     return EOF;
   else
