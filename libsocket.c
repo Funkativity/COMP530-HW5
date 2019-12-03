@@ -32,7 +32,7 @@ ServerSocket ServerSocket_new(int port)
   /* initialize the accepting socket */
   accept_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (accept_fd == -1) {
-    perror("ServerSocket_new:");
+    // perror("ServerSocket_new:");
     return (-1);
   }
 
@@ -42,12 +42,12 @@ ServerSocket ServerSocket_new(int port)
   serv_addr.sin_port = htons(port);
 
   if (bind(accept_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-    perror("ServerSocket_new:");
+    // perror("ServerSocket_new:");
     return (-1);
   }
 
   if (listen(accept_fd, 10) < 0) {
-    perror("ServerSocket_new:");
+    // perror("ServerSocket_new:");
     return (-1);
   }
   return accept_fd;
@@ -68,7 +68,7 @@ Socket ServerSocket_accept(ServerSocket sd)
   clilen = sizeof(cli_addr);
   fd = accept(sd, (struct sockaddr *)&cli_addr, &clilen);
   if (fd < 0) {
-    perror("ServerSocket_accept");
+    // perror("ServerSocket_accept");
     return (-1);
   }
   return fd;
@@ -99,7 +99,7 @@ Socket Socket_new(char *host, int port)
     /* Look up hostname*/
     if ((addr = gethostbyname(host)) == NULL) {
       errno = h_errno;
-      perror("Socket_new:");
+      // perror("Socket_new:");
       return (-1);
     }
   }
@@ -110,13 +110,13 @@ Socket Socket_new(char *host, int port)
   /* get a socket to use */
   fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (fd == -1) {
-    perror("Socket_new:");
+    // perror("Socket_new:");
     return (-1);
   }
   /* use it to connect to server */
   status = connect(fd, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr_in));
   if (status == -1) {
-    perror("Socket_new:");
+    // perror("Socket_new:");
     return (-1);
   }
   return fd;
@@ -137,7 +137,7 @@ int Socket_getc(Socket sd)
   bytes_read = read(sd, &read_buffer[0], 1);
 
   if (bytes_read < 0)
-    perror("Socket_getc:");
+    // perror("Socket_getc:");
 
   if (bytes_read <= 0)
     return EOF;
@@ -164,7 +164,7 @@ int Socket_putc(int c, Socket sd)
   bytes_written = write(sd, &send_buffer[0], 1);
 
   if (bytes_written < 0)
-    perror("Socket_putc:");
+    // perror("Socket_putc:");
 
   if (bytes_written <= 0)
     return EOF;
