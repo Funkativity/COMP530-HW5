@@ -101,7 +101,9 @@ int main(int argc, char* argv[])
         else {
             Socket_close(connect_socket);
             /* reap a zombie every time through the loop, avoid blocking*/
-            term_pid = waitpid(-1, &chld_status, WNOHANG);
+            // term_pid = waitpid(-1, &chld_status, WNOHANG);
+            wait(NULL);
+            exit(0);
         }
     }
 }
