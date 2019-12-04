@@ -153,8 +153,8 @@ void execution_service() {
         // case where buffer overflows, don't run anything
         if (line_data[strlen(line_data) -1] != '\n') {
 
-            fprintf(stderr, "Character limit was exceeded, final character was 0x%x at index %i\n",
-                    line_data[strlen(line_data) - 1], (strlen(line_data) -1));
+            // fprintf(stderr, "Character limit was exceeded, final character was 0x%x at index %i\n",
+            //         line_data[strlen(line_data) - 1], (strlen(line_data) -1));
 
             // skip to the end of this whole ass line of code
             char c;
@@ -177,7 +177,7 @@ void execution_service() {
                 if (stat(argv[0], &file_info) < 0){
                     // if we were unable to find the command and a file path was given
                     if (strchr(argv[0], '/') != NULL){
-                        fprintf(stderr, "\nUnable to find command\n");
+                        // fprintf(stderr, "\nUnable to find command\n");
                         exit(0);
                     }
 
@@ -196,7 +196,7 @@ void execution_service() {
 
                     //all paths failed
                     if (potential_path == NULL){
-                        fprintf(stderr, "\nUnable to find command\n");
+                        // fprintf(stderr, "\nUnable to find command\n");
                         exit(0);
                     // found it!
                     } else {
@@ -261,7 +261,7 @@ void execution_service() {
 
             // parent process handles the error
             else {
-                fprintf(stderr, "Error forking child: %s\n", strerror( errno ));
+                // fprintf(stderr, "Error forking child: %s\n", strerror( errno ));
             }
         }
         remove(filename);
