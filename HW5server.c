@@ -211,8 +211,12 @@ void execution_service() {
                     putchar(0x03);
                     putchar(ok);
                     printf("Error executing command: %s\n", strerror( errno ));
+                } else {
+                    successfull_execution = true;
+                    putchar(0x03);
                 }
                 // fclose(fp);
+
                 exit(0);
             }
 
@@ -234,10 +238,10 @@ void execution_service() {
                 }
 
                 //add special flag end of text character
-                rc = Socket_putc(0x03, connect_socket);
-                if (rc == EOF) {
-                    return;  /* assume socket EOF ends service for this client */
-                }
+                // rc = Socket_putc(0x03, connect_socket);
+                // if (rc == EOF) {
+                //     return;  /* assume socket EOF ends service for this client */
+                // }
 
                 // also add on return condition to it;                
                 rc = Socket_putc(WIFEXITED(stat), connect_socket);
