@@ -47,17 +47,12 @@ int main(int argc, char* argv[])
     * a newline or to the maximim input line size.
     * Continue getting strings from stdin until EOF.
     */
-    printf("%%");
+    printf("%% ");
     fflush( stdout );
 
     int isFirstRun = 1;
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
-        
-        if (isFirstRun) {
-            isFirstRun = 0;
-        } else {
-            printf("%%");
-        }
+
         count = strlen(line_data) + 1; /* count includes '\0' */
         // printf("line received\n");
 
@@ -98,7 +93,7 @@ int main(int argc, char* argv[])
             }
         }
 
-
+        printf("%% ");
         // printf("finished processing thingy");
         /* be sure the string is terminated */
         /* display the converted string on stdout */
