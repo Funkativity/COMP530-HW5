@@ -16,7 +16,7 @@
 #include <string.h>
 #include "Socket.h"
 
-#define MAX_LINE 1024
+#define MAX_LINE 10000
 
 int main(int argc, char* argv[])
 {
