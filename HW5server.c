@@ -112,10 +112,10 @@ int main(int argc, char* argv[])
 
 
 void parseArgs(char *command, char **argv){
-    char *token = strtok(command, " \n");
+    char *token = strtok(command, " \n\t");
     *argv++ = token;
     while (token != NULL){
-        token = strtok(NULL, " \n");
+        token = strtok(NULL, " \n\t");
         *argv++ = token;
     }
 }
