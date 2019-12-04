@@ -139,7 +139,6 @@ void execution_service() {
         for (i = 0; i < MAX_LINE; i++) {
             c = Socket_getc(connect_socket);
             if (c == EOF) {
-                fprintf(stderr, "end of file reached");
                 // fprintf(stderr, "Socket_getc EOF or error\n");
                 return; /* assume socket EOF ends service for this client */
             }
@@ -147,7 +146,6 @@ void execution_service() {
                 line_data[i] = c;
             }
             if (c == '\0') {
-                fprintf(stderr, "backslash 0 reached");
                 break;
             }
         }

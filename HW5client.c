@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-
 #include "Socket.h"
 
 #define MAX_LINE 1024
@@ -51,9 +50,13 @@ int main(int argc, char* argv[])
     printf("%%");
     fflush( stdout );
 
-
+    int isFirstRun = 1;
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
-
+        if (isFirstRun) {
+            isFirstRun = 0;
+        } else {
+            printf("%%");
+        }
         count = strlen(line_data) + 1; /* count includes '\0' */
         // printf("line received\n");
 
@@ -98,7 +101,6 @@ int main(int argc, char* argv[])
         // printf("finished processing thingy");
         /* be sure the string is terminated */
         /* display the converted string on stdout */
-        printf("%%");
     } /* end of while loop; at EOF */
     Socket_close(connect_socket);
     exit(0);
