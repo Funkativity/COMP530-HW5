@@ -53,6 +53,11 @@ int main(int argc, char* argv[])
     int isFirstRun = 1;
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
         
+        if (isFirstRun) {
+            isFirstRun = 0;
+        } else {
+            printf("%%");
+        }
         count = strlen(line_data) + 1; /* count includes '\0' */
         // printf("line received\n");
 
@@ -68,9 +73,7 @@ int main(int argc, char* argv[])
                 exit (-1);  /* assume socket problem is fatal, end client */
             }
         }
-        if (c ==EOF){
-            return;
-        }
+
         /* receive the converted characters for the string from
         * the server using the data transfer socket.
         */
@@ -94,7 +97,7 @@ int main(int argc, char* argv[])
                 putchar(c);
             }
         }
-        printf("%%");
+
 
         // printf("finished processing thingy");
         /* be sure the string is terminated */
