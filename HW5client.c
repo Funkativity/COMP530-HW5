@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 
             else if (c == 0x03){
                 // here is where I could handle error codes, but instead i just flush past them
-                while (c != '\0') {
+                while (c != 0x04) {
                     c = Socket_getc(connect_socket);
                 }
                 break;

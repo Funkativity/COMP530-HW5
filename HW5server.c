@@ -228,7 +228,6 @@ void execution_service() {
                     }
                     rc = Socket_putc(c, connect_socket);
                     if (rc == EOF) {
-                        // printf("Socket_putc EOF or error\n");
                         return;  /* assume socket EOF ends service for this client */
                     }
                 }
@@ -236,7 +235,6 @@ void execution_service() {
                 //add special flag end of text character
                 rc = Socket_putc(0x03, connect_socket);
                 if (rc == EOF) {
-                    // printf("Socket_putc EOF or error\n");
                     return;  /* assume socket EOF ends service for this client */
                 }
 
@@ -246,6 +244,7 @@ void execution_service() {
                     return;  /* assume socket EOF ends service for this client */
                 }
 
+
                 if (WIFEXITED(stat)) {
                     rc = Socket_putc(WEXITSTATUS(stat), connect_socket);
                     if (rc == EOF) {
@@ -254,7 +253,7 @@ void execution_service() {
                 }
 
                 // also add on a null terminator to it;                
-                rc = Socket_putc('\0', connect_socket);
+                rc = Socket_putc(0x04, connect_socket);
 
                 fclose(read_handle);
             }
