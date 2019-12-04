@@ -177,7 +177,7 @@ void execution_service() {
                 if (stat(argv[0], &file_info) < 0){
                     // if we were unable to find the command and a file path was given
                     if (strchr(argv[0], '/') != NULL){
-                        fprintf(stderr, "Unable to find command\n");
+                        // fprintf(stderr, "Unable to find command\n");
                         exit(-1);
                     }
 
@@ -198,7 +198,7 @@ void execution_service() {
                     if (potential_path == NULL){
                         // printf("Unable to find command\n");
                         // fflush(stdout);
-                        fprintf(stderr, "path not found");
+                        // fprintf(stderr, "path not found");
                         fflush(stderr);
                         exit(-1);
                     // found it!
@@ -206,7 +206,7 @@ void execution_service() {
                         argv[0] = potential_full_path;
                     }
                 }
-                fprintf(stderr, "about to execute");
+                // fprintf(stderr, "about to execute");
                 fflush(stderr);
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {

@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
                     printf("Unable to execute function\n");
                 }
                 while (c != 0x04) {
-                    printf("0x%x\n", c);
+                    // printf("0x%x\n", c);
                     c = Socket_getc(connect_socket);
 
                 }
