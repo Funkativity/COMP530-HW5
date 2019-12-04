@@ -18,7 +18,7 @@
 
 #include "Socket.h"
 
-#define MAX_ARGS 1000
+#define MAX_ARGS 4096
 #define MAX_LINE 10000
 
 int cpid = 1;
