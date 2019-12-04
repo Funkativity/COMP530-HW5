@@ -83,6 +83,10 @@ int main(int argc, char* argv[])
             else if (c == 0x03){
                 // here is where I could handle error codes, but instead i just flush past them
                 c = Socket_getc(connect_socket);
+                // if a code returned an error
+                if (!c) {
+                    printf("Unable to execute function");
+                }
                 while (c != 0x04) {
                     putchar(c);
                     c = Socket_getc(connect_socket);
