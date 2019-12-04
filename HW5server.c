@@ -197,8 +197,8 @@ void execution_service() {
                     //all paths failed
                     if (potential_path == NULL){
                         printf("Unable to find command\n");
-                        fflush(stdout);
-                        exit(0);
+                        fflush(stdout)
+                        exit(-1);
                     // found it!
                     } else {
                         argv[0] = potential_full_path;
@@ -210,13 +210,9 @@ void execution_service() {
                     successfull_execution = false;
                     putchar(0x03);
                     putchar(ok);
-                    fprintf(stderr, "Error executing command: %s\n", strerror( errno ));
-                } else {
-                    successfull_execution = true;
-                    putchar(0x03);
+                    printf("Error executing command: %s\n", strerror( errno ));
                 }
                 // fclose(fp);
-
                 exit(0);
             }
 
@@ -238,10 +234,10 @@ void execution_service() {
                 }
 
                 //add special flag end of text character
-                // rc = Socket_putc(0x03, connect_socket);
-                // if (rc == EOF) {
-                //     return;  /* assume socket EOF ends service for this client */
-                // }
+                rc = Socket_putc(0x03, connect_socket);
+                if (rc == EOF) {
+                    return;  /* assume socket EOF ends service for this client */
+                }
 
                 // also add on return condition to it;                
                 rc = Socket_putc(WIFEXITED(stat), connect_socket);
@@ -250,7 +246,7 @@ void execution_service() {
                 }
 
 
-                if (WIFEXITED(stat)) {
+                if (!WIFEXITED(stat)) {
                     rc = Socket_putc(WEXITSTATUS(stat), connect_socket);
                     if (rc == EOF) {
                         return;  /* assume socket EOF ends service for this client */
