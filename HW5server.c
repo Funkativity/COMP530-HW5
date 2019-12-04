@@ -198,13 +198,16 @@ void execution_service() {
                     if (potential_path == NULL){
                         // printf("Unable to find command\n");
                         // fflush(stdout);
+                        fprintf(stderr, "path not found");
+                        fflush(stderr);
                         exit(-1);
                     // found it!
                     } else {
                         argv[0] = potential_full_path;
                     }
                 }
-
+                fprintf(stderr, "about to execute");
+                fflush(stderr);
                 int ok = execv(argv[0], argv);
                 if (ok < 0) {
                     successfull_execution = false;
