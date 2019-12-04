@@ -210,7 +210,7 @@ void execution_service() {
                     successfull_execution = false;
                     putchar(0x03);
                     putchar(ok);
-                    printf("Error executing command: %s\n", strerror( errno ));
+                    fprintf(stderr, "Error executing command: %s\n", strerror( errno ));
                 } else {
                     successfull_execution = true;
                     putchar(0x03);
