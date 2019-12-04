@@ -196,7 +196,7 @@ void execution_service() {
 
                     //all paths failed
                     if (potential_path == NULL){
-                        // fprintf(stderr, "\nUnable to find command\n");
+                        printf("Unable to find command\n");
                         exit(0);
                     // found it!
                     } else {
