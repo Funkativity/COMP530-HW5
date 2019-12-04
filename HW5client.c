@@ -1,12 +1,12 @@
-/* 
+/*
  * A client program that uses the service of executing shell commands
  *
  * This program reads input lines from stdin and sends them to
- * a server which forks itself and executes the command in the child. 
+ * a server which forks itself and executes the command in the child.
  * The server then returns the output to the client.
  *
- * The client has two positional parameters: (1) the DNS host name 
- * where the server program is running, and (2) the port number of 
+ * The client has two positional parameters: (1) the DNS host name
+ * where the server program is running, and (2) the port number of
  * the server's "welcoming" socket.
  */
 
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     int i, c, rc;
     int count = 0;
 
-    char line_data[MAX_LINE]; 
+    char line_data[MAX_LINE];
 
     /* variable to hold socket descriptor */
     Socket connect_socket;
@@ -43,20 +43,16 @@ int main(int argc, char* argv[])
         return (-1);
     }
 
-    /* get a string from stdin up to and including 
-    * a newline or to the maximim input line size.  
+    /* get a string from stdin up to and including
+    * a newline or to the maximim input line size.
     * Continue getting strings from stdin until EOF.
-    */ 
+    */
     printf("%%");
     fflush( stdout );
 
     int isFirstRun = 1;
     while ((fgets(line_data, sizeof(line_data), stdin) != NULL)) {
-        if (isFirstRun) {
-            isFirstRun = 0;
-        } else {
-            printf("%%");
-        }
+        
         count = strlen(line_data) + 1; /* count includes '\0' */
         // printf("line received\n");
 
@@ -67,19 +63,21 @@ int main(int argc, char* argv[])
             c = line_data[i];
             rc = Socket_putc(c, connect_socket);
             if (rc == EOF) {
-                // printf("Socket_putc EOF or error\n");             
+                // printf("Socket_putc EOF or error\n");
                 Socket_close(connect_socket);
                 exit (-1);  /* assume socket problem is fatal, end client */
             }
         }
-
+        if (c ==EOF){
+            return;
+        }
         /* receive the converted characters for the string from
-        * the server using the data transfer socket.  
-        */ 
+        * the server using the data transfer socket.
+        */
         while (1){
             c = Socket_getc(connect_socket);
             if (c == EOF){
-                // printf("Socket_getc EOF or error\n");             
+                // printf("Socket_getc EOF or error\n");
                 Socket_close(connect_socket);
                 exit (-1);  /* assume socket problem is fatal, end client */
             }
@@ -96,7 +94,7 @@ int main(int argc, char* argv[])
                 putchar(c);
             }
         }
-
+        printf("%%");
 
         // printf("finished processing thingy");
         /* be sure the string is terminated */
