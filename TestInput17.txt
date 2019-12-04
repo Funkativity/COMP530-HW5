@@ -1,0 +1,3 @@
+echo arg
+/program/does/not/exist arg1 arg2
+echo arg
