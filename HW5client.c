@@ -84,7 +84,9 @@ int main(int argc, char* argv[])
                 // here is where I could handle error codes, but instead i just flush past them
                 c = Socket_getc(connect_socket);
                 while (c != 0x04) {
+                    putchar(c);
                     c = Socket_getc(connect_socket);
+
                 }
                 break;
             }
