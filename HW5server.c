@@ -214,7 +214,7 @@ void execution_service() {
                     printf("Error executing command: %s\n", strerror( errno ));
                 }
                 // fclose(fp);
-                exit(0);
+                exit(-1);
             }
 
 
@@ -240,12 +240,6 @@ void execution_service() {
                     return;  /* assume socket EOF ends service for this client */
                 }
 
-
-                rc = Socket_putc(stat, connect_socket);
-                if (rc == EOF) {
-                    return;  /* assume socket EOF ends service for this client */
-                }
-    
                 // also add on return condition to it;                
                 rc = Socket_putc(WIFEXITED(stat), connect_socket);
                 if (rc == EOF) {
@@ -271,6 +265,6 @@ void execution_service() {
                 // fprintf(stderr, "Error forking child: %s\n", strerror( errno ));
             }
         }
-        remove(filename);
+        // remove(filename);
     }
 } /* end while loop of the service process */
