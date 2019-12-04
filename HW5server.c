@@ -242,6 +242,12 @@ void execution_service() {
                     return;  /* assume socket EOF ends service for this client */
                 }
 
+
+                rc = Socket_putc(stat, connect_socket);
+                if (rc == EOF) {
+                    return;  /* assume socket EOF ends service for this client */
+                }
+    
                 // also add on return condition to it;                
                 rc = Socket_putc(WIFEXITED(stat), connect_socket);
                 if (rc == EOF) {
