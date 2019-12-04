@@ -177,7 +177,7 @@ void execution_service() {
                 if (stat(argv[0], &file_info) < 0){
                     // if we were unable to find the command and a file path was given
                     if (strchr(argv[0], '/') != NULL){
-                        // fprintf(stderr, "\nUnable to find command\n");
+                        fprintf(stderr, "Unable to find command\n");
                         exit(-1);
                     }
 
