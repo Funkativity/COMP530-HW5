@@ -1,0 +1,3 @@
+echo arg
+/bin/
+echo arg
